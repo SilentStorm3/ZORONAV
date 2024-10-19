@@ -1,55 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet" />
+    <style>
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        }
+
+        .dropdown-content p {
+          padding: 12px 16px;
+          cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<h2>Send Input to Python</h2>
-
-<form>
-  <label for="inputField">Enter something:</label>
-  <input type="text" id="inputField" name="inputField"><br><br>
-
-  <label for="category">Select category:</label>
-  <select id="category" name="category">
-    <option value="students">Students</option>
-    <option value="professors">Professors</option>
-    <option value="laboratories">Laboratories</option>
-  </select><br><br>
-
-  <button type="button" onclick="sendInput()">Submit</button>
-</form>
-
+<div class="s01">
+    <form>
+      <fieldset>
+        <legend>ZORONAV</legend>
+      </fieldset>
+      <div class="inner-form">
+        <div class="input-field first-wrap">
+          <select id="search" >
+            <option value="professor" onclick="getrecords()">professor</option>
+            <option value="lab/deptt" onclick="getrecords()">lab/deptt</option>
+            <option value="hostel_room" onclick="getrecords()">hostel_room</option>
+          </select>
+        </div>
+        <div class="input-field second-wrap">
+          <input id="location" type="text" placeholder="enter name" oninput="filterFunction()" onclick="toggleDropdown()" />
+          <div id="dropdown" class="dropdown-content"></div>
+        </div>
+        <div class="input-field third-wrap">
+            <a href="mapapi.html" >
+                <button id="maplinkbutton" class="btn-search" type="button" onclick = "sendInput()">Search</button>
+            </a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="footer">
+    &copy; 2024 Made by:- Shubham, Shaurya, Aditya, Pushkar.
+  </div>
 <p id="displayArea"></p>
 
-<script>
-  async function sendInput() {
-    const input = document.getElementById("inputField").value;
-    const category = document.getElementById("category").value;
-    const response = await fetch('http://127.0.0.1:5000/process', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ input: input, category: category })
-    });
-
-    const data = await response.json();
-    let displayText = `${data.Name} + ${data.output}`;
-    if (data.suggestions && data.suggestions.length > 0) {
-      displayText += "<br>Did you mean: <ul>";
-      data.suggestions.forEach(suggestion => {
-        displayText += `<li>${suggestion}</li>`;
-      });
-    displayText += "</ul>";
-    }
-    const latitude = data.lat;
-    const longitude = data.long;
-    document.getElementById("displayArea").innerHTML = displayText;
-
-  }
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
