@@ -9,8 +9,8 @@ db = client["Rooms"]
 
 collections = {
     "students": db["Students"],
-    "professors": db["Profs"],
-    "laboratories": db["Labs"]
+    "profs": db["Profs"],
+    "labs": db["Labs"]
 }
 
 # Function to fetch a response from the appropriate collection based on user input and category
