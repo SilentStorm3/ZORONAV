@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Send Input to Python</h2>
+
+<form>
+  <label for="inputField">Enter something:</label>
+  <input type="text" id="inputField" name="inputField"><br><br>
+
+  <label for="category">Select category:</label>
+  <select id="category" name="category">
+    <option value="students">Students</option>
+    <option value="professors">Professors</option>
+    <option value="laboratories">Laboratories</option>
+  </select><br><br>
+
+  <button type="button" onclick="sendInput()">Submit</button>
+</form>
+
+<p id="displayArea"></p>
+
+<script>
+  async function sendInput() {
+    const input = document.getElementById("inputField").value;
+    const category = document.getElementById("category").value;
+    const response = await fetch('http://127.0.0.1:5000/process', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ input: input, category: category })
+    });
+
+    const data = await response.json();
+    let displayText = `${data.Name} + ${data.output}`;
+    if (data.suggestions && data.suggestions.length > 0) {
+      displayText += "<br>Did you mean: <ul>";
+      data.suggestions.forEach(suggestion => {
+        displayText += `<li>${suggestion}</li>`;
+      });
+    displayText += "</ul>";
+    }
+    const latitude = data.lat;
+    const longitude = data.long;
+    document.getElementById("displayArea").innerHTML = displayText;
+
+  }
+</script>
+
+</body>
+</html>
