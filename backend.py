@@ -32,25 +32,36 @@ def process_input():
     data = request.get_json()
     user_input = data['input']
     category = data['category']
+    if user_input:
+        # Fetch response from the appropriate collection
+        result = fetch_response(user_input, category)
 
-    # Fetch response from the appropriate collection
-    result = fetch_response(user_input, category)
-
-    if result:
-        response = {
-            'Name' : result['Name'],
-            'output': result['RoomNo'],
-            'lat': result['Lat'],
-            'long': result['Long'],
-            'suggestions': ''
-        }
+        if result:
+            response = {
+                'Name' : result['Name'],
+                'output': result['RoomNo'],
+                'lat': result['Lat'],
+                'long': result['Long'],
+                'suggestions': ''
+            }
+        else:
+            closest_matches = find_closest_matches(user_input, category)
+            response = {
+                'Name' : '',
+                'output': 'Did you mean one of these?',
+                'suggestions': closest_matches
+            }
     else:
-        closest_matches = find_closest_matches(user_input, category)
+        #getting all responses
+        collection = collections[category]
+        results = collection.find()
         response = {
-            'Name' : '',
-            'output': 'Did you mean one of these?',
-            'suggestions': closest_matches
+            'Name' : [result['Name'] for result in results],
+            'output': '',
+            'lat': '',
+            'long': '',
         }
+    # Return the response as JSON
 
     return jsonify(response)
 
