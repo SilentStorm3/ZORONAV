@@ -1,6 +1,7 @@
 
 var dropdownData = []
-
+var latitude;
+var longitude;
 function toggleDropdown() {
   const dropdown = document.getElementById("dropdown");
   if (dropdown.style.display === "block") {
@@ -67,7 +68,7 @@ async function sendInput() {
         });
         displayText += "</ul>";
     }
-    const latitude = data.lat;
-    const longitude = data.long;
+    latitude = data.lat;
+    longitude = data.long;
     document.getElementById("displayArea").innerHTML = displayText;
 }

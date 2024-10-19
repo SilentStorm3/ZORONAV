@@ -49,7 +49,9 @@ def process_input():
             response = {
                 'Name' : '',
                 'output': 'Did you mean one of these?',
-                'suggestions': closest_matches
+                'suggestions': closest_matches,
+                'lat':'',
+                'long': ''
             }
     else:
         #getting all responses
