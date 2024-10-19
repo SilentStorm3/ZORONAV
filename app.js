@@ -36,14 +36,15 @@ function selectItem(element) {
   dropdown.style.display = "none";
 }
 
-async function getrecords() {
-      const input = document.getElementById("search").value;
+async function getrecords(catagory) {
+
+      const input = catagory;
       const response = await fetch('http://127.0.0.1:5000/process', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({category: input })
+      body: JSON.stringify({input: '',category: catagory })
     });
 
      const data = await response.json();
