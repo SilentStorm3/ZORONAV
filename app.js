@@ -73,5 +73,6 @@ async function sendInput() {
     latitude = data.lat;
     longitude = data.long;
     name = data.Name;
+    document.getElementById("name").innerHTML = name;
     document.getElementById("address").innerHTML = displayText;
 }
